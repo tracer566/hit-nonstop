@@ -136,6 +136,8 @@ const playerTimeTotal = document.querySelector('.player__time-total');
 let playerVolumeInput = document.querySelector('.player__volume-input');
 
 const catalogContainer = document.querySelector('.catalog__container');
+const search = document.querySelector('.search');
+
 
 const catalogAddBtn = document.createElement('button');
 catalogAddBtn.classList.add('catalog__btn-add');
@@ -423,9 +425,28 @@ const init = () => {
       muteBtn.classList.add('player__icon_mute-on')
       muteBtn.classList.remove('player__icon_mute-off')
       playerVolumeInput.value = audio.volume * 100
-
     }
   });
+
+  // поиск,событие на форме
+  search.addEventListener('submit', event => {
+    event.preventDefault()
+    // поисковая строчка
+    const searchStr = search.search.value;
+
+    // фильтр массива треков
+    const searchFilter = dataMusic.filter((item) => {
+      // проверка поискового запроса
+      if (item.artist.toLocaleLowerCase().includes(searchStr.toLocaleLowerCase()) || item.track.toLocaleLowerCase().includes(searchStr.toLocaleLowerCase()))
+        return item;
+    });
+
+    // рендер нужных карточек
+    renderCatalog(searchFilter);
+
+  });
+
+
 };
 
 init()
